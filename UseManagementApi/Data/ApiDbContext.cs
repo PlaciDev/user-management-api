@@ -1,0 +1,20 @@
+﻿using Microsoft.EntityFrameworkCore;
+using UseManagementApi.Data.Mappings;
+using UseManagementApi.Models;
+
+namespace UseManagementApi.Data;
+
+public class ApiDbContext : DbContext
+{
+    public ApiDbContext(DbContextOptions<ApiDbContext> options) : base(options) {}
+    
+    DbSet<User> Users { get; set; }
+    DbSet<Role> Roles { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfiguration(new RoleMap());
+        modelBuilder.ApplyConfiguration(new UserMap());
+        
+    }
+}
