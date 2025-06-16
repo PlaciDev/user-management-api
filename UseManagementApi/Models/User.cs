@@ -8,4 +8,6 @@ public class User
     public string? PasswordHash { get; set; }
     public string? IsActive { get; set; }
     public string? CreatedAt { get; set; }
+
+    public Role Role { get; set; }
 }
