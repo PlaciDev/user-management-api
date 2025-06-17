@@ -8,8 +8,8 @@ public class ApiDbContext : DbContext
 {
     public ApiDbContext(DbContextOptions<ApiDbContext> options) : base(options) {}
     
-    DbSet<User> Users { get; set; }
-    DbSet<Role> Roles { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Role> Roles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
