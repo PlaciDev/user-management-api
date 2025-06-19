@@ -1,4 +1,6 @@
-﻿namespace UseManagementApi.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace UseManagementApi.Models;
 
 public class User
 {
@@ -6,8 +8,9 @@ public class User
     public string? Name { get; set; }
     public string? Email { get; set; }
     public string? PasswordHash { get; set; }
-    public string? IsActive { get; set; }
-    public string? CreatedAt { get; set; }
+    public bool IsActive { get; set; } 
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+    [JsonIgnore]
     public Role Role { get; set; }
 }

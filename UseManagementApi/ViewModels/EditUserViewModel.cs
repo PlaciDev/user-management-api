@@ -16,12 +16,12 @@ public class EditUserViewModel
     
     [Required(ErrorMessage = "A senha é obrigatória.")]
     [MinLength(12, ErrorMessage = "A senha deve conter no mínimo 12 caracteres.")]
-    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])",
+    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$",
         ErrorMessage = "A senha deve conter: 1 letra minúscula, 1 letra maiuscula, 1 número, 1 caracter especial.")]
     public string Password { get; set; }
     
-    public bool IsActive { get; set; } = true;
+    public bool IsActive { get; set; }
     
     [Required]
-    public Role Role { get; set; }
+    public string? RoleName { get; set; }
 }
