@@ -20,7 +20,24 @@ public class UserController : ControllerBase
     {
         try
         {
-            var users = await context.Users.AsNoTracking().ToListAsync();
+            var users = await context
+                .Users
+                .AsNoTracking()
+                .Include(x => x.Role)
+                .Select(x => new ListUserViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Email = x.Email,
+                    IsActive = x.IsActive,
+                    CreatedAt = x.CreatedAt,
+                    Role = new ListRoleViewModel
+                    {
+                        Id = x.Role.Id,
+                        Name = x.Role.Name
+                    }
+                })
+                .ToListAsync();
 
             if (users is null)
             {
