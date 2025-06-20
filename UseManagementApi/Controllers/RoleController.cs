@@ -15,7 +15,15 @@ public class RoleController : ControllerBase
     {
         try
         {
-            var role = await context.Roles.AsNoTracking().ToListAsync();
+            var role = await context
+                .Roles
+                .AsNoTracking()
+                .Select(x => new ListRoleViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                })
+                .ToListAsync();
 
             if (role is null)
             {
@@ -37,7 +45,16 @@ public class RoleController : ControllerBase
     {
         try
         {
-            var role = await context.Roles.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            var role = await context
+                .Roles
+                .AsNoTracking()
+                .Select(x => new ListRoleViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                    
+                })
+                .FirstOrDefaultAsync(x => x.Id == id);
             if (role is null)
             {
                 return NotFound("Nenhum perfil encontrado...");
