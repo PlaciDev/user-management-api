@@ -113,7 +113,7 @@ public class UserController : ControllerBase
             user.IsActive = model.IsActive;
             user.Role = role;
             
-            await context.Users.AddAsync(user);
+            context.Users.Update(user);
             await context.SaveChangesAsync();
             
             return Ok(user);
