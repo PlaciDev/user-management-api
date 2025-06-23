@@ -16,10 +16,14 @@ public class UserController : ControllerBase
 
     [HttpGet("api/users")]
     public async Task<IActionResult> GetAsync(
-        [FromServices] ApiDbContext context)
+        [FromServices] ApiDbContext context,
+        [FromQuery] int page = 0,
+        [FromQuery] int pageSize = 10)
     {
         try
         {
+            var count = await context.Users.AsNoTracking().CountAsync();
+            
             var users = await context
                 .Users
                 .AsNoTracking()
@@ -37,6 +41,9 @@ public class UserController : ControllerBase
                         Name = x.Role.Name
                     }
                 })
+                .Skip(page * pageSize)
+                .Take(pageSize)
+                .OrderBy(x => x.Name)
                 .ToListAsync();
 
             if (users is null)
