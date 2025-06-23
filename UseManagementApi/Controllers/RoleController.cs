@@ -17,7 +17,7 @@ public class RoleController : ControllerBase
     {
         try
         {
-            var count = await context.Roles.CountAsync();
+            var count = await context.Roles.AsNoTracking().CountAsync();
             
             var roles = await context
                 .Roles
