@@ -11,11 +11,15 @@ public class RoleController : ControllerBase
 {
     [HttpGet("api/roles")]
     public async Task<IActionResult> GetAsync(
-        [FromServices] ApiDbContext context)
+        [FromServices] ApiDbContext context,
+        [FromQuery] int page = 0,
+        [FromQuery] int pageSize = 10)
     {
         try
         {
-            var role = await context
+            var count = await context.Roles.CountAsync();
+            
+            var roles = await context
                 .Roles
                 .AsNoTracking()
                 .Select(x => new ListRoleViewModel
@@ -23,14 +27,18 @@ public class RoleController : ControllerBase
                     Id = x.Id,
                     Name = x.Name
                 })
+                .Skip(page * pageSize)
+                .Take(pageSize)
+                .OrderBy(x => x.Name)
                 .ToListAsync();
+            
 
-            if (role is null)
+            if (roles is null)
             {
                 return NotFound("Nenhum perfil encontrado...");
             }
 
-            return Ok(role);
+            return Ok(roles);
         }
         catch
         {
