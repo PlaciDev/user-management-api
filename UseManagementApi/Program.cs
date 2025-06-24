@@ -9,11 +9,18 @@ builder.Services.AddDbContext<ApiDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Ignorando ciclos e nulls
-builder.Services.AddControllers().AddJsonOptions(options =>
+builder.
+    Services
+    .AddControllers()
+    .AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-});
+})
+    // Desativando a validaçao automática do ModelState 
+    .ConfigureApiBehaviorOptions(options =>
+        options.SuppressModelStateInvalidFilter = true);
+
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
