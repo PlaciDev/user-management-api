@@ -48,14 +48,14 @@ public class UserController : ControllerBase
 
             if (users is null)
             {
-                return NotFound("Nenhum perfil encontrado...");
+                return NotFound(new ResultViewModel<List<User>>("Nenhum usuário encontrado..."));
             }
-            
-            return Ok(users);
+
+            return Ok(new ResultViewModel<List<ListUserViewModel>>(users));
         }
         catch
         {
-            return StatusCode(500, "Erro interno no servidor...");
+            return StatusCode(500, new ResultViewModel<List<ListUserViewModel>>("Erro interno no servidor..."));
         }
     }
 
@@ -70,14 +70,14 @@ public class UserController : ControllerBase
 
             if (user is null)
             {
-                return NotFound("Nenhum perfil encontrado...");
+                return NotFound(new ResultViewModel<ListRoleViewModel>("Usuário não encontrado..."));
             }
             
-            return Ok(user);
+            return Ok(new ResultViewModel<User>(user));
         }
-        catch (Exception e)
+        catch
         {
-            return StatusCode(500, "Erro interno no servidor...");
+            return StatusCode(500, new ResultViewModel<User>("Erro interno no servidor..."));
         }
     }
 
@@ -105,12 +105,12 @@ public class UserController : ControllerBase
             
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
-            
-            return Ok(user);
+
+            return Ok(new ResultViewModel<User>(user));
         }
         catch
         {
-            return StatusCode(500, "Erro interno no servidor...");
+            return StatusCode(500, new ResultViewModel<User>("Erro interno no servidor..."));
         }
     }
 
@@ -139,12 +139,12 @@ public class UserController : ControllerBase
             
             context.Users.Update(user);
             await context.SaveChangesAsync();
-            
-            return Ok(user);
+
+            return Ok(new ResultViewModel<User>(user));
         }
-        catch (Exception e)
+        catch
         {
-            return StatusCode(500, "Erro interno no servidor...");
+            return StatusCode(500, new ResultViewModel<User>("Erro interno no servidor..."));
         }
     }
 
@@ -159,17 +159,17 @@ public class UserController : ControllerBase
 
             if (user is null)
             {
-                return NotFound("Nenhum perfil encontrado...");
+                return NotFound(new ResultViewModel<User>("Nenhum usuário encontrado..."));
             }
 
             context.Users.Remove(user);
             await context.SaveChangesAsync();
-            
-            return Ok(user);
+
+            return Ok(new ResultViewModel<User>(user));
         }
-        catch (Exception e)
+        catch
         {
-            return StatusCode(500, "Erro interno no servidor...");
+            return StatusCode(500, new ResultViewModel<User>("Erro interno no servidor..."));
         }
     }
     
