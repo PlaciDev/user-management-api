@@ -35,14 +35,14 @@ public class RoleController : ControllerBase
 
             if (roles is null)
             {
-                return NotFound("Nenhum perfil encontrado...");
-            }
+                return NotFound(new ResultViewModel<List<ListRoleViewModel>>("Nenhum perfil foi encontrado..."));
+            }   
 
-            return Ok(roles);
+            return Ok(new ResultViewModel<List<ListRoleViewModel>>(roles));
         }
         catch
         {
-            return StatusCode(500, "Erro interno no servidor...");
+            return StatusCode(500, new ResultViewModel<List<ListRoleViewModel>>("Erro interno no servidor..."));
         }
     }
 
@@ -63,16 +63,17 @@ public class RoleController : ControllerBase
                     
                 })
                 .FirstOrDefaultAsync(x => x.Id == id);
+            
             if (role is null)
             {
-                return NotFound("Nenhum perfil encontrado...");
+                return NotFound(new ResultViewModel<Role>("Perfil não encontrado..."));
             }
 
-            return Ok(role);
+            return Ok(new ResultViewModel<ListRoleViewModel>(role));
         }
         catch
         {
-            return StatusCode(500, "Erro interno no servidor...");
+            return StatusCode(500, new ResultViewModel<Role>("Erro interno no servidor..."));
         }
     }
 
@@ -81,21 +82,22 @@ public class RoleController : ControllerBase
         [FromServices] ApiDbContext context,
         [FromBody] EditRoleViewModel model)
     {
+        
         try
         {
-            var role = new Role
+            var role = new Role()
             {
                 Name = model.Name
             };
 
             await context.Roles.AddAsync(role);
             await context.SaveChangesAsync();
-            
-            return Ok(role);
+
+            return Ok(new ResultViewModel<Role>(role));
         }
-        catch (Exception e)
+        catch
         {
-            return StatusCode(500, "Erro interno no servidor...");
+            return StatusCode(500, new ResultViewModel<Role>("Erro interno no servidor..."));
         }
     }
 
@@ -111,20 +113,20 @@ public class RoleController : ControllerBase
 
             if (role is null)
             {
-                return NotFound("Nenhum perfil encontrado...");
+                return NotFound(new ResultViewModel<Role>("Perfil não econtrado..."));
             }
 
             role.Name = model.Name;
 
             context.Roles.Update(role);
             await context.SaveChangesAsync();
-            
-            return Ok(role);
-            
+
+            return Ok(new ResultViewModel<Role>(role));
+
         }
         catch
         {
-            return StatusCode(500, "Erro interno no servidor...");
+            return StatusCode(500, new ResultViewModel<Role>("Erro interno no servidor..."));
         }
     }
 
@@ -139,17 +141,17 @@ public class RoleController : ControllerBase
 
             if (role is null)
             {
-                return NotFound("Nenhum perfil encontrado...");
+                return NotFound(new ResultViewModel<Role>("Perfil não encontrado..."));
             }
             
             context.Remove(role);
             await context.SaveChangesAsync();
-            
-            return Ok(role);
+
+            return Ok(new ResultViewModel<Role>(role));
         }
         catch
         {
-            return StatusCode(500, "Erro interno no servidor...");
+            return StatusCode(500, new ResultViewModel<Role>("Erro interno no servidor..."));
         }
         
     }
