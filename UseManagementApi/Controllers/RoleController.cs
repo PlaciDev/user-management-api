@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using UseManagementApi.Data;
 using UseManagementApi.Models;
 using UseManagementApi.ViewModels;
+using  Microsoft.Extensions.Caching.Memory;
 
 namespace UseManagementApi.Controllers;
 
@@ -12,27 +13,32 @@ public class RoleController : ControllerBase
     [HttpGet("api/roles")]
     public async Task<IActionResult> GetAsync(
         [FromServices] ApiDbContext context,
+        [FromServices] IMemoryCache cache,
         [FromQuery] int page = 0,
         [FromQuery] int pageSize = 10)
     {
         try
         {
             var count = await context.Roles.AsNoTracking().CountAsync();
-            
-            var roles = await context
-                .Roles
-                .AsNoTracking()
-                .Select(x => new ListRoleViewModel
-                {
-                    Id = x.Id,
-                    Name = x.Name
-                })
-                .Skip(page * pageSize)
-                .Take(pageSize)
-                .OrderBy(x => x.Name)
-                .ToListAsync();
-            
 
+            var roles = await cache.GetOrCreateAsync(cache, async entry =>
+            {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
+
+                return await context
+                    .Roles
+                    .AsNoTracking()
+                    .Select(x => new ListRoleViewModel
+                    {
+                        Id = x.Id,
+                        Name = x.Name
+                    })
+                    .Skip(page * pageSize)
+                    .Take(pageSize)
+                    .OrderBy(x => x.Name)
+                    .ToListAsync();
+            });
+            
             if (roles is null)
             {
                 return NotFound(new ResultViewModel<List<ListRoleViewModel>>("Nenhum perfil foi encontrado..."));
