@@ -4,11 +4,14 @@ using UseManagementApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configurando connectionString
+// Configura a ConnectionString
 builder.Services.AddDbContext<ApiDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Ignorando ciclos e nulls
+// Habilita o cacheamento
+builder.Services.AddMemoryCache();
+
+// Ignora ciclos e nulos
 builder.
     Services
     .AddControllers()
@@ -17,7 +20,7 @@ builder.
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 })
-    // Desativando a validaçao automática do ModelState 
+    // Desativa a validaçao automática do ModelState 
     .ConfigureApiBehaviorOptions(options =>
         options.SuppressModelStateInvalidFilter = true);
 
