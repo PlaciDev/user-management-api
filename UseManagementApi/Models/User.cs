@@ -8,8 +8,8 @@ public class User
     public string? Name { get; set; }
     public string? Email { get; set; }
     public string? PasswordHash { get; set; }
-    public bool IsActive { get; set; } 
+    public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     
-    public Role Role { get; set; }
+    public Role? Role { get; set; }
 }

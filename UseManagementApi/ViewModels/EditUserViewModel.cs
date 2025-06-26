@@ -19,8 +19,8 @@ public class EditUserViewModel
     [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$",
         ErrorMessage = "A senha deve conter: 1 letra minúscula, 1 letra maiuscula, 1 número, 1 caracter especial.")]
     public string Password { get; set; }
-    
-    public bool IsActive { get; set; }
+
+    public bool IsActive { get; set; } = true;
     
     [Required]
     public string? RoleName { get; set; }
