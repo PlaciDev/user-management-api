@@ -25,7 +25,7 @@ builder.Services
     //.ConfigureApiBehaviorOptions(options =>
      //   options.SuppressModelStateInvalidFilter = true);
 
-// Criação de serviços
+// Configuração de serviços
 
 builder.Services.AddTransient<TokenService>();
 
