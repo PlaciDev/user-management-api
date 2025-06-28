@@ -1,0 +1,19 @@
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using UseManagementApi.Models;
+
+namespace UseManagementApi.Services;
+
+public class TokenService
+{
+    public string GenerateToken(User user)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(Configuration.JwtKey);
+        var tokenDescriptor = new SecurityTokenDescriptor();
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+
+        return tokenHandler.WriteToken(token);
+    }
+}
