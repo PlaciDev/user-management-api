@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using UseManagementApi.Data;
+using UseManagementApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,10 @@ builder.Services
 
     //.ConfigureApiBehaviorOptions(options =>
      //   options.SuppressModelStateInvalidFilter = true);
+
+// Criação de serviços
+
+builder.Services.AddTransient<TokenService>();
 
  
 
