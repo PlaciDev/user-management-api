@@ -15,6 +15,7 @@ public class AccountController : ControllerBase
     [HttpPost("api/accounts/register")]
     public async Task<IActionResult> Register(
         [FromServices] ApiDbContext context,
+        [FromServices] EmailService emailService,
         [FromBody] RegisterViewModel model)
     {
         var defaultRole = context.Roles.FirstOrDefault(x => x.Name == "commonUser");
@@ -32,6 +33,16 @@ public class AccountController : ControllerBase
         {
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
+
+            emailService.Send(
+                user.Name,
+                user.Email,
+                "Criação de Acesso",
+                $@"Seu acesso foi criado com sucesso!<br>
+                <br>
+                 Sua senha é <strong>{model.Password}</strong>.
+                <br> 
+                Entre em contato com um Técnico, para atribuição do seu perfil!");
 
             return Ok(new ResultViewModel<dynamic>(new
             {

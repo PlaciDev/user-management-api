@@ -49,6 +49,7 @@ builder.Services
 // Configuração de serviços
 
 builder.Services.AddTransient<TokenService>();
+builder.Services.AddTransient<EmailService>();
 
  
 
@@ -60,7 +61,7 @@ var app = builder.Build();
 
 // Configura o Smtp para envio de email
 var smtp = new Configuration.SmtpConfiguration();
-app.Configuration.GetSection("Smtp").Bind(smtp);
+app.Configuration.GetSection("SmtpConfiguration").Bind(smtp);
 Configuration.Smtp = smtp;
 
 // Configure the HTTP request pipeline.
