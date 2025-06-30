@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UseManagementApi.Data;
@@ -10,6 +11,7 @@ using SecureIdentity.Password;
 
 namespace UseManagementApi.Controllers;
 
+[Authorize(Roles = "admin")]
 [ApiController]
 public class UserController : ControllerBase
 {
