@@ -58,6 +58,11 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Configura o Smtp para envio de email
+var smtp = new Configuration.SmtpConfiguration();
+app.Configuration.GetSection("Smtp").Bind(smtp);
+Configuration.Smtp = smtp;
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
