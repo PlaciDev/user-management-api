@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UseManagementApi.Data;
 using UseManagementApi.Models;
@@ -7,6 +8,7 @@ using  Microsoft.Extensions.Caching.Memory;
 
 namespace UseManagementApi.Controllers;
 
+[Authorize(Roles = "admin")]
 [ApiController]
 public class RoleController : ControllerBase
 {
