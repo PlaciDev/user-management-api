@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SecureIdentity.Password;
+using UseManagementApi.Attributes;
 using UseManagementApi.Data;
 using UseManagementApi.Models;
 using UseManagementApi.Services;
@@ -10,6 +11,7 @@ using UseManagementApi.ViewModels;
 namespace UseManagementApi.Controllers;
 
 [ApiController]
+[ApiKey]
 public class AccountController : ControllerBase
 {
     [HttpPost("api/accounts/register")]

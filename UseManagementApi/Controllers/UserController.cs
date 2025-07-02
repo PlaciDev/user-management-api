@@ -6,17 +6,19 @@ using UseManagementApi.Data;
 using UseManagementApi.Models;
 using UseManagementApi.ViewModels;
 using SecureIdentity.Password;
-
+using UseManagementApi.Attributes;
 
 
 namespace UseManagementApi.Controllers;
 
-[Authorize(Roles = "admin")]
 [ApiController]
+[Authorize(Roles = "admin")]
+[ApiKey]
 public class UserController : ControllerBase
 {
 
     [HttpGet("api/users")]
+    
     public async Task<IActionResult> GetAsync(
         [FromServices] ApiDbContext context,
         [FromQuery] int page = 0,

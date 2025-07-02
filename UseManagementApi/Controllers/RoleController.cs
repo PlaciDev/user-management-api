@@ -9,8 +9,9 @@ using UseManagementApi.Attributes;
 
 namespace UseManagementApi.Controllers;
 
-[Authorize(Roles = "admin")]
 [ApiController]
+[Authorize(Roles = "admin")]
+[ApiKey]
 public class RoleController : ControllerBase
 {
     
