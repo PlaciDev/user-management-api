@@ -2,6 +2,9 @@
 
 public class Configuration
 {
+    
+    public static string JwtKey { get; set; }
+    
     public static SmtpConfiguration Smtp = new();
     
     public class SmtpConfiguration  

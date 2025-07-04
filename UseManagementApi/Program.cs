@@ -16,6 +16,8 @@ builder.Services.AddDbContext<ApiDbContext>(options =>
 
 // Configura a autenticação
 
+Configuration.JwtKey = builder.Configuration.GetSection("JwtSettings:Key").Value;
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
