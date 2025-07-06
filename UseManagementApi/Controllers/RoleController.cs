@@ -24,7 +24,6 @@ public class RoleController : ControllerBase
     {
         try
         {
-            var count = await context.Roles.AsNoTracking().CountAsync();
 
             var roles = await cache.GetOrCreateAsync(cache, async entry =>
             {
@@ -60,20 +59,31 @@ public class RoleController : ControllerBase
     [HttpGet("api/roles/{id}")]
     public async Task<IActionResult> GetByIdAsync(
         [FromServices] ApiDbContext context,
+        [FromServices] IMemoryCache cache,
         [FromRoute] int id)
     {
         try
         {
-            var role = await context
-                .Roles
-                .AsNoTracking()
-                .Select(x => new ListRoleViewModel
-                {
-                    Id = x.Id,
-                    Name = x.Name
+            var role = await cache.GetOrCreateAsync(cache, async entry =>
+            {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
+
+                return await context
+                    .Roles
+                    .AsNoTracking()
+                    .Select(x => new ListRoleViewModel
+                    {
+                        Id = x.Id,
+                        Name = x.Name
+
+                    })
+                    .FirstOrDefaultAsync(x => x.Id == id);
+            });
                     
-                })
-                .FirstOrDefaultAsync(x => x.Id == id);
+                    
+                    
+                    
+                
             
             if (role is null)
             {
