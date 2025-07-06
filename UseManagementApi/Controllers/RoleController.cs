@@ -24,11 +24,13 @@ public class RoleController : ControllerBase
     {
         try
         {
+            var cacheKey = $"roles:page={page}:size={pageSize}";
 
-            var roles = await cache.GetOrCreateAsync(cache, async entry =>
+            var roles = await cache.GetOrCreateAsync(cacheKey, async entry =>
             {
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
 
+                
                 return await context
                     .Roles
                     .AsNoTracking()
@@ -64,7 +66,9 @@ public class RoleController : ControllerBase
     {
         try
         {
-            var role = await cache.GetOrCreateAsync(cache, async entry =>
+            var cacheKey = $"role:{id}";
+            
+            var role = await cache.GetOrCreateAsync(cacheKey, async entry =>
             {
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
 
